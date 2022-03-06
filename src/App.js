@@ -1,24 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/App.css';
+import Header from './template/header';
+import Questions from './questions';
+import Footer from './template/footer';
+import QuizImage from "./images/quizImage1.jpg";
+import Score from './score';
+import QuestionList from '../src/questions/dailyQuestionList';
+
+
 
 function App() {
+
+  const [currentScore, setCurrentScore] = useState(0);
+  const [questionSelector, setQuestionSelector] = useState(1);
+
+  function failGame(){
+    console.log("You lose");
+  }
+
+  function nextRound(){
+    setCurrentScore(currentScore + 1);
+    setQuestionSelector(questionSelector + 1);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Header />
+    <div className="MainContent">
+    <h1 className="MainTitle">QuizFive</h1>
+    <p>Answer all five questions correctly to win the daily QuizFive trophy!</p>
+
+    {QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
+        .map((question, index) => {
+          return (
+            <Questions 
+                key={index}
+                id={question.id}
+                questionNumber={question.questionNumber}
+                questionTitle={question.Title}
+                answerA={question.answerA}
+                answerB={question.answerB}
+                answerC={question.answerC}
+                correctAnswer={question.correctAnswer}
+                onFailGame={failGame}
+                onNextRound={nextRound}
+            />
+          );
+        })}
+
+    <div>
+    <Score 
+      currentScore={currentScore}
+    />
+    <img className="QuizImage" src={QuizImage} alt="quiz image"></img>
     </div>
+    </div>
+    <Footer />
+    </div>
+
   );
 }
 
