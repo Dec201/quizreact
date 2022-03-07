@@ -7,6 +7,8 @@ import Footer from './template/footer';
 import QuizImage from "./images/quizImage1.jpg";
 import Score from './score';
 import QuestionList from '../src/questions/dailyQuestionList';
+import Confetti from 'react-confetti';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -23,8 +25,10 @@ function App() {
   }
 
   function nextRound(){
-    if(currentScore < 4){
+
     setCurrentScore(currentScore + 1);
+
+    if(currentScore < 4){
     setQuestionSelector(questionSelector + 1);
     } else {
       winEndGame();
@@ -36,17 +40,11 @@ function App() {
     console.log("End Game Won!");
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  // renderInputField(){
+  //   if(!endGameWinner){
+      
+  //   }
+  // }
 
 
 
@@ -60,7 +58,7 @@ function App() {
         .map((question, index) => {
           return (
             <Questions 
-                key={index}
+                key={uuidv4()}
                 id={question.id}
                 questionNumber={question.questionNumber}
                 questionTitle={question.Title}
@@ -73,11 +71,12 @@ function App() {
             />
           );
         })}
-
+           
     <div>
     <Score 
       currentScore={currentScore}
     />
+    {(currentScore === 5 && <Confetti gravity={0.02}/>)} 
     <img className="QuizImage" src={QuizImage} alt="quiz image"></img>
     </div>
     </div>

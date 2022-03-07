@@ -87,6 +87,11 @@ li:hover {
   color: #FFF32D;
 }
 
+.ScoreWinner{
+  color: #92ffa1;
+  text-transform: uppercase;
+}
+
 /* Id */
 
 #footer{
