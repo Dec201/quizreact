@@ -92,6 +92,12 @@ li:hover {
   text-transform: uppercase;
 }
 
+.WinnerImage{
+  margin: 2%;
+  width: 415px;
+  height: 177px;
+}
+
 /* Id */
 
 #footer{

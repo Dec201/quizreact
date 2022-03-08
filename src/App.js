@@ -5,6 +5,8 @@ import Header from './template/header';
 import Questions from './questions';
 import Footer from './template/footer';
 import QuizImage from "./images/quizImage1.jpg";
+import Winner from "./images/winner.jpg";
+import Lost from "./images/lost.jpg";
 import Score from './score';
 import QuestionList from '../src/questions/dailyQuestionList';
 import Confetti from 'react-confetti';
@@ -16,11 +18,10 @@ function App() {
 
   const [currentScore, setCurrentScore] = useState(0);
   const [questionSelector, setQuestionSelector] = useState(1);
-  const [endGameWinner, setEndGameWinner] = useState(false);
-  const [endGameLoser, setEndGameLoser] = useState(false);
+  const [endGame, setEndGame] = useState(null);
 
   function failGame(){
-    setEndGameLoser(true);
+    setEndGame(false);
     console.log("You lose");
   }
 
@@ -36,15 +37,30 @@ function App() {
   }
 
   function winEndGame(){
-    setEndGameWinner(true);
+    setEndGame(true);
     console.log("End Game Won!");
   }
 
-  // renderInputField(){
-  //   if(!endGameWinner){
-      
-  //   }
-  // }
+  function mainBoard(){
+
+    if(endGame === true){
+      return(
+        <div>
+        <img className="WinnerImage" src={Winner}></img>
+        <p>You smashed the quiz!</p>
+        </div>
+      )
+    }
+    if(endGame === false){
+      return(
+        <div>
+        <img className="WinnerImage" src={Lost}></img>
+      <p>You lose, better luck tomorrow</p>
+      </div>
+      )
+    }
+
+  }
 
 
 
@@ -54,8 +70,9 @@ function App() {
     <div className="MainContent">
     <h1 className="MainTitle">QuizFive</h1>
     <p>Answer all five questions correctly to win the daily QuizFive trophy!</p>
-    {QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
-        .map((question, index) => {
+    {endGame === null ? 
+    QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
+        .map((question) => {
           return (
             <Questions 
                 key={uuidv4()}
@@ -70,8 +87,8 @@ function App() {
                 onNextRound={nextRound}
             />
           );
-        })}
-           
+        })
+    : mainBoard()}
     <div>
     <Score 
       currentScore={currentScore}
