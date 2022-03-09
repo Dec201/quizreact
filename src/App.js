@@ -11,6 +11,7 @@ import Score from './score';
 import QuestionList from '../src/questions/dailyQuestionList';
 import Confetti from 'react-confetti';
 import { v4 as uuidv4 } from 'uuid';
+import Time from './time';
 
 
 
@@ -21,8 +22,9 @@ function App() {
   const [endGame, setEndGame] = useState(null);
 
   function failGame(){
+    setQuestionSelector(0);
     setEndGame(false);
-    console.log("You lose");
+    console.log("You lose" + questionSelector);
   }
 
   function nextRound(){
@@ -46,7 +48,7 @@ function App() {
     if(endGame === true){
       return(
         <div>
-        <img className="WinnerImage" src={Winner}></img>
+        <img className="WinnerImage" src={Winner} alt="Winning"></img>
         <p>You smashed the quiz!</p>
         </div>
       )
@@ -54,7 +56,7 @@ function App() {
     if(endGame === false){
       return(
         <div>
-        <img className="WinnerImage" src={Lost}></img>
+        <img className="WinnerImage" src={Lost} alt="Losing"></img>
       <p>You lose, better luck tomorrow</p>
       </div>
       )
@@ -93,8 +95,9 @@ function App() {
     <Score 
       currentScore={currentScore}
     />
+    <Time timeStatus={endGame} question={questionSelector} />
     {(currentScore === 5 && <Confetti gravity={0.02}/>)} 
-    <img className="QuizImage" src={QuizImage} alt="quiz image"></img>
+    <img className="QuizImage" src={QuizImage} alt="Quiz"></img>
     </div>
     </div>
     <Footer />
