@@ -50,6 +50,14 @@ li:hover {
   color: #61dafb;
 }
 
+.DateAlign{
+    margin-top: 10px;
+}
+
+.DateMove{
+  margin-right: 30px;
+}
+
 .MainContent{
   padding: 6% 6%;
 }
@@ -92,8 +100,17 @@ li:hover {
   text-transform: uppercase;
 }
 
+.TimeAlign{
+  /* position:absolute;
+  right: 0%; */
+  /* display: inline-block; */
+  width: 160px;
+  
+
+}
+
 .WinnerImage{
-  margin: 2%;
+  margin: 1.5%;
   width: 415px;
   height: 177px;
 }

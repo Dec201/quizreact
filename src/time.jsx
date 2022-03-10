@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 
 
 const Timer = props => {
@@ -25,11 +26,19 @@ const Timer = props => {
         clearInterval(interval);
       }
       return () => clearInterval(interval);
-    });
-    // , [isActive, seconds]);
+    }, [isActive, seconds]);
   
+
+    function handleChange(props){
+        props.onChange(Timer.seconds);
+    }
+
+
     return (
-        <p>Time Taken - {seconds} Seconds</p>
+        <div>
+        <p> <AccessAlarmsIcon /> Time Taken - {seconds} Seconds</p>
+        {/* value={props.value} onChange={handleChange}  */}
+        </div>
     );
   };
 

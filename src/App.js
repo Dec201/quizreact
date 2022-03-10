@@ -17,31 +17,46 @@ import Time from './time';
 
 function App() {
 
+  // mongo db
+  // player {playerName, Date - Score - TimeTaken}
+  // show last 3 outings
+
   const [currentScore, setCurrentScore] = useState(0);
   const [questionSelector, setQuestionSelector] = useState(1);
   const [endGame, setEndGame] = useState(null);
+  const [gameTimer, setGameTimer] = useState(0);
+
+  
 
   function failGame(){
     setQuestionSelector(0);
     setEndGame(false);
     console.log("You lose" + questionSelector);
-  }
+  };
 
   function nextRound(){
 
     setCurrentScore(currentScore + 1);
+    
 
     if(currentScore < 4){
     setQuestionSelector(questionSelector + 1);
+    console.log(Time.seconds);
     } else {
       winEndGame();
     }
-  }
+  };
 
   function winEndGame(){
     setEndGame(true);
+    console.log(gameTimer);
     console.log("End Game Won!");
-  }
+  };
+
+  function handleChange(newValue){
+    setGameTimer(newValue);
+    console.log(gameTimer);
+  };
 
   function mainBoard(){
 
@@ -95,7 +110,7 @@ function App() {
     <Score 
       currentScore={currentScore}
     />
-    <Time timeStatus={endGame} question={questionSelector} />
+    <Time timeStatus={endGame} question={questionSelector} onChange={handleChange} />
     {(currentScore === 5 && <Confetti gravity={0.02}/>)} 
     <img className="QuizImage" src={QuizImage} alt="Quiz"></img>
     </div>
