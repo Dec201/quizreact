@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
-import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
+import { Navbar, Nav } from 'react-bootstrap';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import { format } from 'date-fns';
 import DateRangeIcon from '@mui/icons-material/DateRange';

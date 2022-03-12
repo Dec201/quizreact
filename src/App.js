@@ -17,16 +17,12 @@ import Time from './time';
 
 function App() {
 
-  // mongo db
-  // player {playerName, Date - Score - TimeTaken}
-  // show last 3 outings
 
   const [currentScore, setCurrentScore] = useState(0);
   const [questionSelector, setQuestionSelector] = useState(1);
   const [endGame, setEndGame] = useState(null);
   const [gameTimer, setGameTimer] = useState(0);
 
-  
 
   function failGame(){
     setQuestionSelector(0);
@@ -36,6 +32,7 @@ function App() {
 
   function nextRound(){
 
+    console.log(process.env.REACT_APP_JWT_API_KEY);
     setCurrentScore(currentScore + 1);
     
 
