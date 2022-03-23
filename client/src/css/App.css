@@ -2,6 +2,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Aclonica&display=swap');
 
+
+
+
+
+
 /* Elements */
 
 *, *::before, *::after {
@@ -31,7 +36,18 @@ li:hover {
 }
 
 
+
+
+
+
 /* Classes */
+
+
+
+
+
+
+/* Main */
 
 .App {
   text-align: center;
@@ -45,13 +61,45 @@ li:hover {
   flex-direction: column;
 }
 
+
 .App-header {
   background-color: #282c34;
-  display: flex;  
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+
+.MainContent{
+  padding: 6% 6%;
+}
+
+.MainTitle{
+  text-align: center;
+  font-size: 5rem;
+}
+
+
+
+
+
+/* Header */
+
+.quizIcon{
+  margin-right: 10px;
+  font-size: 2em;
+}
+
+.main-inputBox {
+  width: 20%;
+  font-size: 1rem;
+  margin: 0 1rem 0 1rem;
+}
+
+.main-label {
+  font-size: 1.25rem;
 }
 
 .btn-login {
@@ -65,33 +113,43 @@ li:hover {
   background-color: #92ffa1;
 }
 
-.DateAlign{
-    margin-top: 10px;
+
+
+
+
+
+/* Navigation */
+
+.nav-item {
+  font-size: 1.2rem;
 }
 
-.DateMove{
-  margin-right: 30px;
+.nav-brand {
+  text-decoration: none;
+  color: #fff;
 }
 
-.MainContent{
-  padding: 6% 6%;
+.nav-brand:hover {
+  color:#FFF32D;
 }
 
-.main-inputBox {
-  width: 20%;
+.nav-flex-bar {
+ display: flex;
+ justify-content: space-between;
+ font-size: 1.25rem;
+ margin: 0 10%; 
 }
 
-.main-label {
-  margin: 10px 10px;
-  font-size: 1.25rem;
+.nav-user-details {
+  align-items: center;
 }
 
 
 
-.MainTitle{
-  text-align: center;
-  font-size: 5rem;
-}
+
+
+/* Questions Section */
+
 
 .questionsMain {
   display: inline-block;
@@ -105,10 +163,21 @@ li:hover {
 .questionsMain ul {
   display: inline-block;
   list-style-type: none;
+  padding: 0;
 }
 
-.quizIcon{
-  margin-right: 10px;
+
+
+
+
+
+
+/* Images */
+
+.WinnerImage{
+  margin: 1.5%;
+  width: 415px;
+  height: 177px;
 }
 
 .QuizImage{
@@ -116,6 +185,13 @@ li:hover {
   height: 300px;
   width: 450px;
 }
+
+
+
+
+
+
+/* Score Section */
 
 .Score{
   color: #FFF32D;
@@ -126,22 +202,13 @@ li:hover {
   text-transform: uppercase;
 }
 
-.TimeAlign{
-  /* position:absolute;
-  right: 0%; */
-  /* display: inline-block; */
-  width: 160px;
-  
 
-}
 
-.WinnerImage{
-  margin: 1.5%;
-  width: 415px;
-  height: 177px;
-}
 
-/* Id */
+
+
+
+/* Footer */
 
 #footer{
   padding: 20px;
@@ -149,5 +216,20 @@ li:hover {
   background-color: #282c34;
   margin-top: auto;
   width: 100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.TimeAlign{
+  width: 160px;
+}
+
+.DateAlign{
+  margin-top: 10px;
+}
+
+.DateMove{
+margin: 0 30px 0 30px;
 }
 

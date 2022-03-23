@@ -10,7 +10,7 @@ const saltRounds = 10;
 const app = express();
 const userDomainRouter = express.Router();
 
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 
 require('dotenv'). config();
 
@@ -26,7 +26,7 @@ const db = mysql.createPool({
 
 userDomainRouter.use(
     session({
-      key: "userId",
+      key: "userCookieId",
       secret: process.env.SESSION_SECRET_KEY,
       resave: false,
       saveUninitialized: false,
@@ -39,7 +39,11 @@ userDomainRouter.use(
 
 
 userDomainRouter.get("/login", (req, res) => {
-    res.send("hi");
+    if(req.session.user){
+      res.send({loggedIn: true, userid: req.session.user[0].id, emailAddress: req.session.user[0].emailAddress})
+    } else {
+      res.send({loggedIn: false})
+    }
 });
 
 
@@ -85,18 +89,18 @@ userDomainRouter.post("/login", (req, res) => {
     
           if (result.length > 0) {
             bcrypt.compare(password, result[0].password, (error, response) => {
+
+              if(error){
+                console.log(error);
+              }
+
               if (response) {
-  
-                
-
                 req.session.user = result;
-  
-                res.json({result: result});
-
-                console.log(result);
+                console.log(req.session.user);
+                res.json({userid: req.session.user[0].id, emailAddress: req.session.user[0].emailAddress, message: "You have logged in"});
 
               } else {
-                res.json({message: "Wrong username/password combo"});
+                res.json({message: "Incorrect username or password"});
               }
             });
           } else {

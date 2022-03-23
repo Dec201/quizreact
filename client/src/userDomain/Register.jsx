@@ -5,8 +5,6 @@ import Axios from "axios";
 
 
 
-
-
 function Register() {
 
 
@@ -51,10 +49,10 @@ function RegistrationNotComplete(){
 
 
         <div className="registration">
-        <label htmlFor="username">Username</label>
+        <label className="Registration-label">Username</label>
         <input id="username" className="register--username" type="email" 
         placeholder="Email" onChange={EmailChange} />
-        <label htmlFor="password">Password</label>
+        <label className="Registration-label" htmlFor="password">Password</label>
         <input id="password" className="register--password" type="password" 
         placeholder="Password" onChange={PasswordChange}></input>
 

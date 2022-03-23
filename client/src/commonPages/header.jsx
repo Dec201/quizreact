@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
-import { Navbar, Nav } from 'react-bootstrap';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
-import { format } from 'date-fns';
-import DateRangeIcon from '@mui/icons-material/DateRange';
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 
 
 function Header(){
 
-    const currentDate = new Date();
-    const [timeState, setTimeState] = useState(currentDate);
+ 
 
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
@@ -23,13 +19,15 @@ function Header(){
     Axios.defaults.withCredentials = true;
 
 
-      useEffect(() => {
-        const timer = setInterval(() => { 
-        setTimeState(new Date());
-      }, 1000);
-      return () => {
-        clearInterval(timer);
-      }
+
+
+
+    useEffect(() => {
+      Axios.get("http://localhost:3001/login").then((response) => {
+        if(response.data.loggedIn == true){
+        setLoggedInUserEmail(response.data.emailAddress);
+        }
+      });
     }, []);
 
 
@@ -45,22 +43,25 @@ function Header(){
 
       Axios.post("http://localhost:3001/login", {
         emailAddress: emailLogin,
-        password: passwordLogin
+        password: passwordLogin,
       }).then((response) => {
 
-        if(response){
-          setUserLoggedIn(true);
-          setLoggedInUserEmail(response.emailAddress);
+        if(response.data.message === "You have logged in"){
           console.log(response);
+          setUserLoggedIn(true);
+          setLoggedInUserEmail(response.data.emailAddress);
+          console.log(response.data);
+          console.log(userLoggedIn);
+          console.log(loggedInUserEmail);
         }
         else{
-          console.log(response.id);
-          console.log(response.emailAddress);
+          console.log(response.message);
         }
 
-      }
-        
-      )}
+      }       
+    )}
+
+    
   
 
 
@@ -68,12 +69,12 @@ function Header(){
 
 function UserLoggedOutNavBar(){
   return(
-    <form>
-    <label className="main-label">Email Address</label>
-    <input className="main-inputBox" type="email" placeholder="Email" onChange={EmailChange}></input>
-    <label className="main-label">Password</label>
-    <input className="main-inputBox" type="password" placeholder="Password" onChange={PasswordChange}></input>
-    <button className="btn-login" onClick={AttemptUserLogin}>Login</button>
+    <form className="nav-item">
+    <label htmlFor="email" className="main-label">Email Address</label>
+    <input id="email" className="main-inputBox" type="email" placeholder="Email" onChange={EmailChange}></input>
+    <label htmlFor="password" className="main-label">Password</label>
+    <input id="password" className="main-inputBox" type="password" placeholder="Password" onChange={PasswordChange}></input>
+    <button className="btn-login" type="button" onClick={AttemptUserLogin}>Login</button>
     <Link to={"./register"}>
     <button className="btn-login" as={Link} to="./register" type="button">Register</button>
     </Link>
@@ -83,33 +84,29 @@ function UserLoggedOutNavBar(){
 
 function UserLoggedInNavBar(){
   return(
-    <p>quizer : {loggedInUserEmail}</p>
+    <div className="nav-item">
+    Quiz Master : {loggedInUserEmail}
+    </div>
   )
 }
 
 
 
-
-
 return(
+
     <header className="App-header">
+      <div className="nav-flex-bar">
 
-        <Navbar bg="dark" variant="dark">
-        <Nav className="container-fluid">
-        <QuizOutlinedIcon className="quizIcon" />
-        <Navbar.Brand href="/">QuizFive</Navbar.Brand>
-        </Nav>
-        </Navbar>
+        <a className="nav-item nav-brand" href="/"><QuizOutlinedIcon className="quizIcon" fontSize="large"  />QuizFive</a>
 
-        {userLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}
+        
+        {userLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}       
+        
 
-        <Nav className="ms-auto DateAlign">
-        <Navbar.Brand className="DateMove"><DateRangeIcon /> Date : {format(timeState, "dd/MM/yyyy")}</Navbar.Brand>
-        <Navbar.Brand className="TimeAlign">Time : {format(timeState, "HH:mm:ss")}</Navbar.Brand>
-        </Nav>  
-
+      </div>
     </header>
-)
-    }
+    
+    )}
+    
 
 export default Header;
