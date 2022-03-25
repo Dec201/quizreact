@@ -19,6 +19,7 @@ function MainBoard() {
     const [questionSelector, setQuestionSelector] = useState(1);
     const [endGame, setEndGame] = useState(null);
     const [gameTimer, setGameTimer] = useState(0);
+    // const [questionIdNumber, setQuestionIdNumbner] = useState(0);
   
   
     function failGame(){
@@ -83,6 +84,7 @@ function MainBoard() {
       {endGame === null ? 
       QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
           .map((question) => {
+            {/* setQuestionIdNumbner(question.id); */}
             return (
               <Questions 
                   key={uuidv4()}

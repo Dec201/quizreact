@@ -5,6 +5,7 @@ import '../css/App.css';
 
 function Questions(props){
 
+    
 
     function handleClickAnswer(event){
         if(event.target.id === props.correctAnswer){
@@ -19,7 +20,7 @@ function Questions(props){
     return(
 
         <div className="questionsMain">
-            <div>           
+            <div className="questions-transition">           
             <h3>Question {props.questionNumber}</h3>
                 <p>{props.questionTitle}</p>
                 <ul>

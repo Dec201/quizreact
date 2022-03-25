@@ -47,6 +47,20 @@ userDomainRouter.get("/login", (req, res) => {
 });
 
 
+userDomainRouter.get("/logout", (req, res) => {
+
+  if(req.session.user){
+
+    req.session.destroy();
+    res.json({message: "You have been logged out", loggedOut: true});
+  }
+  else {
+    res.json({message: "You have not been logged out", loggedOut: false});
+  }
+
+});
+
+
 
 
 userDomainRouter.post("/register", (req, res) => {

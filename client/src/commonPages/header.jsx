@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import swal from 'sweetalert';
+import {LoginContext} from "../helper/Context";
 
 
 function Header(){
 
- 
+    const {globalLoggedIn, setGlobalLoggedIn} = useContext(LoginContext);
 
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
@@ -25,8 +27,10 @@ function Header(){
     useEffect(() => {
       Axios.get("http://localhost:3001/login").then((response) => {
         if(response.data.loggedIn == true){
+        setUserLoggedIn(true);
         setLoggedInUserEmail(response.data.emailAddress);
         }
+
       });
     }, []);
 
@@ -47,12 +51,11 @@ function Header(){
       }).then((response) => {
 
         if(response.data.message === "You have logged in"){
-          console.log(response);
           setUserLoggedIn(true);
+          console.log(response.message);
           setLoggedInUserEmail(response.data.emailAddress);
-          console.log(response.data);
-          console.log(userLoggedIn);
           console.log(loggedInUserEmail);
+          setGlobalLoggedIn(true);
         }
         else{
           console.log(response.message);
@@ -61,7 +64,37 @@ function Header(){
       }       
     )}
 
-    
+    function LogCurrentUserOut(){
+      setUserLoggedIn(false);
+      setLoggedInUserEmail("");
+      setGlobalLoggedIn(false);
+
+
+      Axios.get("http://localhost:3001/logout").then((response) => {
+
+        if(response.data.loggedOut === true){
+
+          swal({
+            title: "Come Back Soon!",
+            text: response.data.message,
+            icon: "success",
+            button: "Confirm",
+          });
+
+        } else {
+          
+          swal({
+            title: "Something Went Wrong!",
+            text: response.data.message,
+            icon: "warning",
+            button: "Confirm",
+          });
+
+        }
+
+      });
+
+    }
   
 
 
@@ -74,7 +107,9 @@ function UserLoggedOutNavBar(){
     <input id="email" className="main-inputBox" type="email" placeholder="Email" onChange={EmailChange}></input>
     <label htmlFor="password" className="main-label">Password</label>
     <input id="password" className="main-inputBox" type="password" placeholder="Password" onChange={PasswordChange}></input>
+    <Link to={"./"}>
     <button className="btn-login" type="button" onClick={AttemptUserLogin}>Login</button>
+    </Link>
     <Link to={"./register"}>
     <button className="btn-login" as={Link} to="./register" type="button">Register</button>
     </Link>
@@ -85,7 +120,16 @@ function UserLoggedOutNavBar(){
 function UserLoggedInNavBar(){
   return(
     <div className="nav-item">
-    Quiz Master : {loggedInUserEmail}
+    Quiz Master : {loggedInUserEmail}   
+    <Link to={"./"}>
+    <button className="btn-login" onClick={LogCurrentUserOut} as={Link} to="./" type="submit">Logout</button>
+    </Link>
+    <Link to={"./mainboard"}>
+    <button className="btn-login" as={Link} to="./mainboard" type="button">Quiz</button>
+    </Link>
+    <Link to={"./questionSubmission"}>
+    <button className="btn-login" as={Link} to="./questionSubmission" type="button">Submit Question</button>
+    </Link>
     </div>
   )
 }
@@ -98,10 +142,8 @@ return(
       <div className="nav-flex-bar">
 
         <a className="nav-item nav-brand" href="/"><QuizOutlinedIcon className="quizIcon" fontSize="large"  />QuizFive</a>
-
-        
-        {userLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}       
-        
+ 
+        {userLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}    
 
       </div>
     </header>
