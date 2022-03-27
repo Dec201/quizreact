@@ -31,7 +31,7 @@ userDomainRouter.use(
       resave: false,
       saveUninitialized: false,
       cookie: {
-        expires: 50000,
+        expires: 500000,
       },
     })
   );

@@ -1,31 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useContext} from "react";
 import CopyrightOutlinedIcon from '@mui/icons-material/CopyrightOutlined';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import { format } from 'date-fns';
+import {LocalTimeState} from "../helper/Context";
 
 function Footer(){
 
-    const currentDate = new Date();
-    const [timeState, setTimeState] = useState(currentDate);
 
-    const year = new Date().getFullYear();
-
+  const {globalTimeState, setGlobalTimeState} = useContext(LocalTimeState);
 
     useEffect(() => {
-        const timer = setInterval(() => { 
-        setTimeState(new Date());
-      }, 1000);
-      return () => {
-        clearInterval(timer);
-      }
-    }, []);
+      const timer = setInterval(() => { 
+        setGlobalTimeState(new Date());
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    }
+  });
 
 
     return(
         <div id="footer">
-        <div>QuizFive {year} <CopyrightOutlinedIcon /> - Dec Gregorczyk</div>
-        <div className="DateMove"><DateRangeIcon /> Date : {format(timeState, "dd/MM/yyyy")}</div>
-        <div className="TimeAlign">Time : {format(timeState, "HH:mm:ss")}</div>
+        <div>QuizFive {globalTimeState.getFullYear()} <CopyrightOutlinedIcon /> - Dec Gregorczyk</div>
+        <div className="DateMove"><DateRangeIcon /> Date : {format(globalTimeState, "dd/MM/yyyy")}</div>
+        <div className="TimeAlign">Time : {format(globalTimeState, "HH:mm:ss")}</div>
         </div>
     )
 }

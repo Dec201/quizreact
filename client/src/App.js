@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './css/App.css';
 import Home from "./Home";
 import Header from './commonPages/header';
@@ -8,49 +8,21 @@ import Register from "./userDomain/Register";
 import NotFound from './commonPages/NotFound';
 import QuestionSubmission from "./questionPages/questionSubmission";
 import {Routes, Route} from "react-router-dom";
-import Axios from "axios";
-import {LoginContext, LoginUserDetails} from "./helper/Context";
+import {LoginContext, LoginUserDetails, LocalTimeState} from "./helper/Context";
 
 
 
 function App() {
 
   const [globalLoggedIn, setGlobalLoggedIn] = useState(false);
-
-  const [loggedInStatus, setLoggedInStatus] = useState(false);
-  const [currentUser, setCurrentUser] = useState("");
-
-  Axios.defaults.withCredentials = true;
-
-
- 
-
-    useEffect(() => {
-      Axios.get("http://localhost:3001/login").then((response) => {
-          console.log(response);
-
-          if(response.data.loggedIn === true && loggedInStatus === false){
-            setLoggedInStatus(true);
-              setCurrentUser(response.data);
-          }
-          else{
-            setLoggedInStatus(false);
-            setCurrentUser("");
-          }
-
-      }).catch(error => {
-        console.log("login error", error);
-      })
-
-    }, []);
-
- 
-  
-
+  const [globalCurrentUser, setGlobalCurrentUser] = useState(null);
+  const [globalTimeState, setGlobalTimeState] = useState(new Date());
 
 
   return (
     <div className="App">
+    <LocalTimeState.Provider value={{globalTimeState, setGlobalTimeState}}>
+    <LoginUserDetails.Provider value={{globalCurrentUser, setGlobalCurrentUser}}>
     <LoginContext.Provider value={{globalLoggedIn, setGlobalLoggedIn}}>
       <Header />
     
@@ -67,9 +39,11 @@ function App() {
         
       </Routes>
 
-      {globalLoggedIn ? <h1>Hi</h1> : <h1>You are not loggedin</h1>}
+      {/* {globalLoggedIn ? <h1>{globalLoggedIn.toString() + "" + globalCurrentUser.emailAddress + globalCurrentUser.userid}</h1> : <h1>You are not loggedin</h1>} */}
     <Footer />
     </LoginContext.Provider>
+    </LoginUserDetails.Provider>
+    </LocalTimeState.Provider>
     </div>
     );
 }

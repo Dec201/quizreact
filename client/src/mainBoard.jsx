@@ -84,7 +84,6 @@ function MainBoard() {
       {endGame === null ? 
       QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
           .map((question) => {
-            {/* setQuestionIdNumbner(question.id); */}
             return (
               <Questions 
                   key={uuidv4()}

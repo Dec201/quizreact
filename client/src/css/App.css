@@ -37,9 +37,6 @@ li:hover {
 
 
 
-
-
-
 /* Classes */
 
 
@@ -142,7 +139,6 @@ li:hover {
 }
 
 .nav-brand {
-  text-decoration: none;
   color: #fff;
 }
 
@@ -156,6 +152,10 @@ li:hover {
  font-size: 1.25rem;
  margin: 0 10%; 
 }
+
+.nav-flex-bar a {
+  text-decoration: none;
+} 
 
 .nav-user-details {
   align-items: center;
@@ -197,6 +197,23 @@ li:hover {
   justify-content: center;
   gap: 2rem;
 }
+
+.questionForm {
+  margin-top: 5rem;
+}
+
+.questionName-Input {
+  width: 70%;
+}
+
+textarea.questionName-Input {
+  resize: none;
+}
+
+.questionInput {
+  width: 40%;
+}
+
 
 
 

@@ -1,38 +1,35 @@
-import React, {useEffect, useState, useContext} from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {useState, useContext, useEffect} from "react";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import swal from 'sweetalert';
-import {LoginContext} from "../helper/Context";
+import {LoginContext, LoginUserDetails} from "../helper/Context";
 
 
 function Header(){
 
     const {globalLoggedIn, setGlobalLoggedIn} = useContext(LoginContext);
+    const {globalCurrentUser, setGlobalCurrentUser} = useContext(LoginUserDetails);
 
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
 
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [loggedInUserEmail, setLoggedInUserEmail] = useState("");
 
     Axios.defaults.withCredentials = true;
 
 
 
-
-
     useEffect(() => {
-      Axios.get("http://localhost:3001/login").then((response) => {
-        if(response.data.loggedIn == true){
-        setUserLoggedIn(true);
-        setLoggedInUserEmail(response.data.emailAddress);
+       Axios.get("http://localhost:3001/login").then((response) => {
+        if(response.data.loggedIn === true){
+          setGlobalLoggedIn(true);
+          setGlobalCurrentUser(response.data);
         }
-
       });
-    }, []);
+    });
+
 
 
     function EmailChange(e){
@@ -51,10 +48,8 @@ function Header(){
       }).then((response) => {
 
         if(response.data.message === "You have logged in"){
-          setUserLoggedIn(true);
-          console.log(response.message);
-          setLoggedInUserEmail(response.data.emailAddress);
-          console.log(loggedInUserEmail);
+          setGlobalCurrentUser(true);
+          setGlobalCurrentUser(response.data);
           setGlobalLoggedIn(true);
         }
         else{
@@ -65,10 +60,6 @@ function Header(){
     )}
 
     function LogCurrentUserOut(){
-      setUserLoggedIn(false);
-      setLoggedInUserEmail("");
-      setGlobalLoggedIn(false);
-
 
       Axios.get("http://localhost:3001/logout").then((response) => {
 
@@ -94,6 +85,9 @@ function Header(){
 
       });
 
+      setGlobalCurrentUser(null);
+      setGlobalLoggedIn(false);
+
     }
   
 
@@ -107,9 +101,9 @@ function UserLoggedOutNavBar(){
     <input id="email" className="main-inputBox" type="email" placeholder="Email" onChange={EmailChange}></input>
     <label htmlFor="password" className="main-label">Password</label>
     <input id="password" className="main-inputBox" type="password" placeholder="Password" onChange={PasswordChange}></input>
-    <Link to={"./"}>
+    {/* <Link to={"./"}> */}
     <button className="btn-login" type="button" onClick={AttemptUserLogin}>Login</button>
-    </Link>
+    {/* </Link> */}
     <Link to={"./register"}>
     <button className="btn-login" as={Link} to="./register" type="button">Register</button>
     </Link>
@@ -120,7 +114,7 @@ function UserLoggedOutNavBar(){
 function UserLoggedInNavBar(){
   return(
     <div className="nav-item">
-    Quiz Master : {loggedInUserEmail}   
+    Quiz Master : {globalCurrentUser === null ? "" : globalCurrentUser.emailAddress}   
     <Link to={"./"}>
     <button className="btn-login" onClick={LogCurrentUserOut} as={Link} to="./" type="submit">Logout</button>
     </Link>
@@ -140,10 +134,10 @@ return(
 
     <header className="App-header">
       <div className="nav-flex-bar">
-
-        <a className="nav-item nav-brand" href="/"><QuizOutlinedIcon className="quizIcon" fontSize="large"  />QuizFive</a>
- 
-        {userLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}    
+        <Link to={"./"}>
+        <div className="nav-item nav-brand"><QuizOutlinedIcon className="quizIcon" fontSize="large"  />QuizFive</div>
+        </Link>
+        {globalLoggedIn === false ? UserLoggedOutNavBar() : UserLoggedInNavBar()}    
 
       </div>
     </header>

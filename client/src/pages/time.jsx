@@ -29,9 +29,9 @@ const Timer = props => {
     }, [isActive, seconds]);
   
 
-    function handleChange(props){
-        props.onChange(Timer.seconds);
-    }
+    // function handleChange(props){
+    //     props.onChange(Timer.seconds);
+    // }
 
 
     return (
