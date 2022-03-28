@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from "react";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import { Link } from "react-router-dom";
@@ -28,7 +27,7 @@ function Header(){
           setGlobalCurrentUser(response.data);
         }
       });
-    });
+    }, []);
 
 
 
@@ -97,16 +96,20 @@ function Header(){
 function UserLoggedOutNavBar(){
   return(
     <form className="nav-item">
+    <div className="nav-item__block">
     <label htmlFor="email" className="main-label">Email Address</label>
     <input id="email" className="main-inputBox" type="email" placeholder="Email" onChange={EmailChange}></input>
+    </div>
+    <div className="nav-item__block">
     <label htmlFor="password" className="main-label">Password</label>
     <input id="password" className="main-inputBox" type="password" placeholder="Password" onChange={PasswordChange}></input>
-    {/* <Link to={"./"}> */}
+    </div>
+    <div className="nav-item__block">
     <button className="btn-login" type="button" onClick={AttemptUserLogin}>Login</button>
-    {/* </Link> */}
     <Link to={"./register"}>
     <button className="btn-login" as={Link} to="./register" type="button">Register</button>
     </Link>
+    </div>
     </form>
   )
 };

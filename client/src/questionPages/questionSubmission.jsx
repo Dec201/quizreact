@@ -63,6 +63,11 @@ function QuestionSubmission(){
                 icon: "success",
                 button: "Confirm",
               });
+
+              setQuestionName("");
+              setquestionAnswer("");
+              setquizAnswerA("");
+              setquizAnswerB("");
             }
             if(response.data.postedQuestion === false){
                 swal({

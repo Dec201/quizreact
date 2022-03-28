@@ -51,10 +51,10 @@ function RegistrationNotComplete(){
         <div className="registration">
         <label className="Registration-label">Username</label>
         <input id="username" className="register--username" type="email" 
-        placeholder="Email" onChange={EmailChange} />
-        <label className="Registration-label" htmlFor="password">Password</label>
-        <input id="password" className="register--password" type="password" 
-        placeholder="Password" onChange={PasswordChange}></input>
+        placeholder="Email" autoComplete="off" onChange={EmailChange} />
+        <label className="Registration-label" htmlFor="passwordReg">Password</label>
+        <input id="passwordReg" className="register--password" type="password" 
+        placeholder="Password" autoComplete="off" onChange={PasswordChange}></input>
 
         <button className="btn-login" onClick={RegisterUser}>Register</button>
     </div>

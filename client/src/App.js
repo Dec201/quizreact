@@ -7,9 +7,18 @@ import MainBoard from './mainBoard';
 import Register from "./userDomain/Register";
 import NotFound from './commonPages/NotFound';
 import QuestionSubmission from "./questionPages/questionSubmission";
+import ProtectedRoute from './helper/ProtectedRoute';
 import {Routes, Route} from "react-router-dom";
 import {LoginContext, LoginUserDetails, LocalTimeState} from "./helper/Context";
 
+// auth routes / change questions every 24hr?
+// responsive layout - media queries? < 500px?
+// flicker issue
+
+// questions from db instead of array page
+// fix questionpage - store score/date/user 
+
+// stats page , chart.js?
 
 
 function App() {
@@ -30,16 +39,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
-
-        
+      
+        <Route element={<ProtectedRoute />}>
         <Route path="/mainboard" element={<MainBoard />} />
         <Route path="/questionSubmission" element={<QuestionSubmission />} />
-        
+        </Route>
 
-        
       </Routes>
-
-      {/* {globalLoggedIn ? <h1>{globalLoggedIn.toString() + "" + globalCurrentUser.emailAddress + globalCurrentUser.userid}</h1> : <h1>You are not loggedin</h1>} */}
     <Footer />
     </LoginContext.Provider>
     </LoginUserDetails.Provider>

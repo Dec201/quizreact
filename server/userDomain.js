@@ -10,8 +10,6 @@ const saltRounds = 10;
 const app = express();
 const userDomainRouter = express.Router();
 
-// app.use(bodyParser.urlencoded({extended: true}));
-
 require('dotenv'). config();
 
 

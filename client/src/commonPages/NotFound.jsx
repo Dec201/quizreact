@@ -10,6 +10,7 @@ function NotFound(){
         <h1 className="MainTitle">Page Not Found</h1>
         <p>You seemed to have stumbled into the unknown, press the main page button to return back</p>
         <div className="NotFoundFlexContainer">
+        
               <Link to={"./"}>
              <button className="btn-login" as={Link} to="./">Main Page</button>
              </Link>
