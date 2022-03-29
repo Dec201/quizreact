@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {useState, useContext} from 'react';
+import {Link} from "react-router-dom";
 import './css/App.css';
 import Questions from './questionPages/questions';
 import QuizImage from "./images/quizImage1.jpg";
@@ -10,43 +10,75 @@ import QuestionList from './questionPages/dailyQuestionList';
 import Confetti from 'react-confetti';
 import { v4 as uuidv4 } from 'uuid';
 import Time from './pages/time';
+import Axios from "axios";
+import {LoginContext, LoginUserDetails, LocalTimeState} from "./helper/Context";
 
 
 function MainBoard() {
 
+  const {globalLoggedIn} = useContext(LoginContext);
+  const {globalCurrentUser} = useContext(LoginUserDetails);
+  const {globalTimeState} = useContext(LocalTimeState);
+
+  let WinningScoreHackJobToAvoidAnnoyingUseEffect = 0;
 
     const [currentScore, setCurrentScore] = useState(0);
     const [questionSelector, setQuestionSelector] = useState(1);
     const [endGame, setEndGame] = useState(null);
     const [gameTimer, setGameTimer] = useState(0);
+  
     // const [questionIdNumber, setQuestionIdNumbner] = useState(0);
   
-  
+    Axios.defaults.withCredentials = true;
+
+
+    function logDailyQuizPerformance(){
+
+      if(WinningScoreHackJobToAvoidAnnoyingUseEffect < 5){
+        WinningScoreHackJobToAvoidAnnoyingUseEffect = currentScore;
+      }
+
+      if(globalLoggedIn && globalCurrentUser.userid > 0)
+      {
+      Axios.post("http://localhost:3001/quizDailyPerformance", {
+          globalCurrentUserid: globalCurrentUser.userid,
+          globalDateOnly: globalTimeState.toISOString().slice(0, 19).replace('T', ' '),
+          userScore: WinningScoreHackJobToAvoidAnnoyingUseEffect,
+          userTimer: gameTimer         
+      }).then((response) => {
+          console.log(response);
+      })};
+    }
+    
+
+
     function failGame(){
       setQuestionSelector(0);
       setEndGame(false);
       console.log("You lose" + questionSelector);
+      logDailyQuizPerformance();
+
     };
   
-    function nextRound(){
+    function NextRound(){
   
-      console.log(process.env.REACT_APP_JWT_API_KEY);
       setCurrentScore(currentScore + 1);
-      
-  
-      if(currentScore < 4){
+        
+      if(currentScore < 4)
+      {
       setQuestionSelector(questionSelector + 1);
-      console.log(Time.seconds);
-      } else {
-        winEndGame();
+      } 
+      else 
+      {
+        WinningScoreHackJobToAvoidAnnoyingUseEffect = 5;
+        setEndGame(true);
+        console.log("End Game Won!");
+        logDailyQuizPerformance();
       }
     };
-  
-    function winEndGame(){
-      setEndGame(true);
-      console.log(gameTimer);
-      console.log("End Game Won!");
-    };
+
+    
+
   
     function handleChange(newValue){
       setGameTimer(newValue);
@@ -60,6 +92,9 @@ function MainBoard() {
           <div>
           <img className="WinnerImage" src={Winner} alt="Winning"></img>
           <p>You smashed the quiz!</p>
+          <Link to={"/"}>
+             <button className="btn-login mainboard-btn" as={Link} to="/">Home</button>
+             </Link>
           </div>
         )
       }
@@ -68,6 +103,9 @@ function MainBoard() {
           <div>
           <img className="WinnerImage" src={Lost} alt="Losing"></img>
         <p>You lose, better luck tomorrow</p>
+              <Link to={"/"}>
+             <button className="btn-login mainboard-btn" as={Link} to="/">Home</button>
+             </Link>
         </div>
         )
       }
@@ -80,7 +118,7 @@ function MainBoard() {
         <div>
       <div className="MainContent">
       <h1 className="MainTitle">QuizFive</h1>
-      <p>Answer all five questions correctly to win the daily QuizFive trophy!</p>
+      <p className="MainPara">Answer all five questions correctly to win the daily QuizFive trophy!</p>
       {endGame === null ? 
       QuestionList.filter(questionFilter => questionFilter.id === questionSelector)
           .map((question) => {
@@ -95,7 +133,7 @@ function MainBoard() {
                   answerC={question.answerC}
                   correctAnswer={question.correctAnswer}
                   onFailGame={failGame}
-                  onNextRound={nextRound}
+                  onNextRound={NextRound}
               />
             );
           })
@@ -104,7 +142,7 @@ function MainBoard() {
       <Score 
         currentScore={currentScore}
       />
-      <Time timeStatus={endGame} question={questionSelector} onChange={handleChange} />
+      <Time timeStatus={endGame} question={questionSelector} onChange={handleChange} setTimer={setGameTimer} />
       {(currentScore === 5 && <Confetti gravity={0.02}/>)} 
       <img className="QuizImage" src={QuizImage} alt="Quiz"></img>
       </div>
@@ -113,5 +151,6 @@ function MainBoard() {
   
     );
   }
+
 
   export default MainBoard;

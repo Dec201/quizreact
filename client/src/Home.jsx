@@ -51,7 +51,7 @@ return(
 
 return (
 <div>
-{globalLoggedIn === true ? HomePageLoggedIn() : HomePageLoggedOut()}
+{globalLoggedIn === true && globalCurrentUser !== null ? HomePageLoggedIn() : HomePageLoggedOut()}
 </div>
 )
 

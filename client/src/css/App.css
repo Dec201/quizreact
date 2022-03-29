@@ -3,10 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Aclonica&display=swap');
 
 
-
-
-
-
 /* Elements */
 
 *, *::before, *::after {
@@ -138,7 +134,12 @@ textarea {
 }
 
 
+/* MainBoard */
 
+.mainboard-btn{
+    margin: 1%;
+    font-size: 1.25rem;
+}
 
 
 
@@ -256,6 +257,7 @@ textarea.questionName-Input {
   margin: 1.5%;
   width: 415px;
   height: 177px;
+  max-width: 100%;
 }
 
 .QuizImage{
@@ -344,22 +346,65 @@ margin: 0 30px 0 30px;
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 510px) {
+
+  .nav-item {
+    margin: 1rem 0;
+  }
+
+  .App-header a:first-child button{
+    margin-top: 1rem;
+  }
 
   .nav-flex-bar {
     display: block;
   }
 
   .MainTitle {
-    font-size: 3rem;
+    font-size: 3.5rem;
+  }
+
+  .MainPara {
+    font-size: 1rem;
   }
   
-  .MainContent p{
-    font-size: 1rem;
+  .HomeContent{
+    padding: 0;
   }
 
   body {
-    position:fixed;
+    position:absolute;
   }
+
+}
+
+@media (max-width: 350px){
+
+  #footer{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #footer div{
+    padding: 3%;
+  }
+
+  .App-header button{
+    margin-top: 1rem;
+  }
+
+  .HomeMainText{
+    width: 100%;
+  }
+
+  /* html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+} */
 
 }

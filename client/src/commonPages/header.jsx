@@ -27,7 +27,7 @@ function Header(){
           setGlobalCurrentUser(response.data);
         }
       });
-    }, []);
+    }, [setGlobalLoggedIn , setGlobalCurrentUser]);
 
 
 
@@ -125,7 +125,7 @@ function UserLoggedInNavBar(){
     <button className="btn-login" as={Link} to="./mainboard" type="button">Quiz</button>
     </Link>
     <Link to={"./questionSubmission"}>
-    <button className="btn-login" as={Link} to="./questionSubmission" type="button">Submit Question</button>
+    <button className="btn-login" as={Link} to="./questionSubmission" type="button">Submit Q</button>
     </Link>
     </div>
   )

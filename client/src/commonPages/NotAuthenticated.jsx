@@ -7,7 +7,7 @@ import PadLock from "../images/padlock.jpg";
 
 function NotAuthenticated(){
 
-    
+
     return(
         <div className="MainContent">
         <h1 className="MainTitle">Login To Gain Access</h1>
@@ -16,7 +16,6 @@ function NotAuthenticated(){
               <Link to={"./"}>
              <button className="btn-login" as={Link} to="./">Main Page</button>
              </Link>
-
              <img className="QuestionImage" src={PadLock} alt="Padlock"></img>
              </div>
              </div>
